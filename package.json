@@ -37,7 +37,8 @@
     "homepage": "https://github.com/XeroAlpha/mcpews",
     "dependencies": {
         "p-event": "^6.0.0",
-        "ws": "^8.14.2"
+        "ws": "^8.14.2",
+        "tsc": "2.0.4"
     },
     "devDependencies": {
         "@types/jest": "^29.5.6",
