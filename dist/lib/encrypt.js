@@ -21,6 +21,10 @@ function hashBuffer(algorithm, buffer) {
     return hash.digest();
 }
 export class Encryption {
+    ecdh;
+    pubKey;
+    cipher;
+    decipher;
     constructor() {
         this.ecdh = crypto.createECDH(ecdhCurve);
         this.pubKey = this.ecdh.generateKeys();
@@ -48,6 +52,7 @@ export class Encryption {
     }
 }
 export class ServerEncryption extends Encryption {
+    salt;
     constructor() {
         super();
         this.salt = crypto.randomBytes(blockSize);

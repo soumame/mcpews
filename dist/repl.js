@@ -1,5 +1,5 @@
 #!/usr/bin/env node
-import { EventEmitter } from 'node:events';
+const { EventEmitter } = await import('node:events');
 import os from 'os';
 import readline from 'readline';
 import { start as startREPL } from 'repl';
@@ -10,6 +10,11 @@ function sessionEventListener(eventName, { body }) {
     this.emit('event', eventName, body);
 }
 class SingleSessionServer extends EventEmitter {
+    port;
+    app;
+    session;
+    eventListeners;
+    timeout;
     constructor(port) {
         super();
         this.port = port;
@@ -35,7 +40,8 @@ class SingleSessionServer extends EventEmitter {
         return this.session != null;
     }
     getSession() {
-        if (!this.session) throw new Error('Connection is not established.');
+        if (!this.session)
+            throw new Error('Connection is not established.');
         return this.session;
     }
     encrypt() {
@@ -80,14 +86,16 @@ class SingleSessionServer extends EventEmitter {
         const interfaces = os.networkInterfaces();
         const ips = [];
         Object.values(interfaces).forEach((devInfos) => {
-            if (!devInfos) return;
+            if (!devInfos)
+                return;
             let infoList = devInfos.filter((niInfo) => niInfo.family === 'IPv4');
             if (externalOnly) {
                 infoList = infoList.filter((niInfo) => !niInfo.internal && niInfo.address !== '127.0.0.1');
             }
             ips.push(...infoList.map((niInfo) => niInfo.address));
         });
-        if (ips.length === 0) ips.push('0.0.0.0');
+        if (ips.length === 0)
+            ips.push('0.0.0.0');
         return ips.map((ip) => `/connect ${ip}:${this.port}`);
     }
     connectCommand() {
@@ -97,6 +105,10 @@ class SingleSessionServer extends EventEmitter {
 const OFFLINE_PROMPT = '[Offline] > ';
 const ONLINE_PROMPT = '> ';
 class CommandReplServer {
+    repl;
+    server;
+    acceptUserInput;
+    exitOnClose;
     constructor(port) {
         this.repl = startREPL({
             prompt: OFFLINE_PROMPT,
@@ -110,39 +122,38 @@ class CommandReplServer {
         this.defineDefaultCommands();
         this.repl
             .on('reset', (context) => {
-                this.resetContextScope(context);
-            })
+            this.resetContextScope(context);
+        })
             .on('exit', () => {
-                if (this.exitOnClose) {
-                    process.exit();
-                } else {
-                    void this.server.disconnect();
-                }
-            });
+            if (this.exitOnClose) {
+                process.exit();
+            }
+            else {
+                void this.server.disconnect();
+            }
+        });
         this.resetContextScope(this.repl.context);
         this.server
             .on('online', (address) => {
-                this.printLine(
-                    `${OFFLINE_PROMPT}\nConnection established: ${address}.\nType ".help" for more information.`,
-                    true
-                );
-                this.repl.setPrompt(ONLINE_PROMPT);
-                if (this.acceptUserInput) {
-                    this.repl.displayPrompt(true);
-                }
-            })
+            this.printLine(`${OFFLINE_PROMPT}\nConnection established: ${address}.\nType ".help" for more information.`, true);
+            this.repl.setPrompt(ONLINE_PROMPT);
+            if (this.acceptUserInput) {
+                this.repl.displayPrompt(true);
+            }
+        })
             .on('offline', (address) => {
-                this.printLine(`Connection disconnected: ${address}.`, true);
-                this.showOfflinePrompt(true);
-                this.repl.setPrompt(OFFLINE_PROMPT);
-                if (this.acceptUserInput) {
-                    this.repl.displayPrompt(true);
-                }
-            })
+            this.printLine(`Connection disconnected: ${address}.`, true);
+            this.showOfflinePrompt(true);
+            this.repl.setPrompt(OFFLINE_PROMPT);
+            if (this.acceptUserInput) {
+                this.repl.displayPrompt(true);
+            }
+        })
             .on('event', (eventName, body) => {
-                if (this.repl.editorMode) return;
-                this.printLine(util.format('[%s] %o', eventName, body), true);
-            });
+            if (this.repl.editorMode)
+                return;
+            this.printLine(util.format('[%s] %o', eventName, body), true);
+        });
         this.showOfflinePrompt(true);
     }
     printLine(str, rewriteLine) {
@@ -158,12 +169,10 @@ class CommandReplServer {
     showOfflinePrompt(singleLine) {
         if (singleLine) {
             this.printLine(`Type "${this.server.connectCommand()}" in the game console to connect.`, true);
-        } else {
+        }
+        else {
             const allConnectCommands = this.server.allConnectCommands().join('\n');
-            this.printLine(
-                `Type one of following commands in the game console to connect:\n${allConnectCommands}`,
-                true
-            );
+            this.printLine(`Type one of following commands in the game console to connect:\n${allConnectCommands}`, true);
         }
     }
     resetContextScope(context) {
@@ -217,10 +226,12 @@ class CommandReplServer {
                 if (this.server.isOnline()) {
                     if (this.server.subscribe(eventName)) {
                         this.printLine(`Subscribed ${eventName}.`);
-                    } else {
+                    }
+                    else {
                         this.printLine(`Event ${eventName} is already subscribed.`);
                     }
-                } else {
+                }
+                else {
                     this.printLine('Connection is not established.');
                 }
             }
@@ -231,10 +242,12 @@ class CommandReplServer {
                 if (this.server.isOnline()) {
                     if (this.server.unsubscribe(eventName)) {
                         this.printLine(`Unsubscribed ${eventName}.`);
-                    } else {
+                    }
+                    else {
                         this.printLine(`Event ${eventName} is not subscribed.`);
                     }
-                } else {
+                }
+                else {
                     this.printLine('Connection is not established.');
                 }
             }
@@ -245,10 +258,12 @@ class CommandReplServer {
                 if (this.server.isOnline()) {
                     if (arg === 'force') {
                         void this.server.disconnect(true);
-                    } else {
+                    }
+                    else {
                         let disconnected = false;
                         const timeout = setTimeout(() => {
-                            if (disconnected) return;
+                            if (disconnected)
+                                return;
                             this.printLine('Connection close request timeout.');
                             void this.server.disconnect(true);
                         }, 10000);
@@ -258,7 +273,8 @@ class CommandReplServer {
                         });
                         void this.server.disconnect(false);
                     }
-                } else {
+                }
+                else {
                     this.printLine('Connection is not established.');
                 }
             }
@@ -270,7 +286,8 @@ class CommandReplServer {
                     void this.server.encrypt().then(() => {
                         this.printLine('Connection is encrypted.', true);
                     });
-                } else {
+                }
+                else {
                     this.printLine('Connection is not established.');
                 }
             }
@@ -289,33 +306,34 @@ class CommandReplServer {
                     return;
                 }
                 result = this.server.sendCommand(trimmedCmd.slice(1));
-            } else if (trimmedCmd.length > 0) {
+            }
+            else if (trimmedCmd.length > 0) {
                 result = vm.runInContext(cmd, context, {
                     filename: file
                 });
-            } else {
+            }
+            else {
                 this.acceptUserInput = true;
                 callback(null);
                 return;
             }
             if (result?.then) {
                 result
-                    .then(
-                        (res) => {
-                            callback(null, res);
-                        },
-                        (err) => {
-                            callback(err);
-                        }
-                    )
+                    .then((res) => {
+                    callback(null, res);
+                }, (err) => {
+                    callback(err);
+                })
                     .finally(() => {
-                        this.acceptUserInput = true;
-                    });
-            } else {
+                    this.acceptUserInput = true;
+                });
+            }
+            else {
                 callback(null, result);
                 this.acceptUserInput = true;
             }
-        } catch (err) {
+        }
+        catch (err) {
             callback(err);
             this.acceptUserInput = true;
         }

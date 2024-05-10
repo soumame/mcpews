@@ -13,10 +13,7 @@ export interface Frame<P extends string = string, B = unknown, H extends Header<
     requestId: string;
     version: Version;
 }
-export type Handler<This extends Session, P extends string = string, F extends Frame<P> = Frame<P>> = (
-    this: This,
-    frame: F
-) => boolean | undefined;
+export type Handler<This extends Session, P extends string = string, F extends Frame<P> = Frame<P>> = (this: This, frame: F) => boolean | undefined;
 export declare class Session extends EventEmitter {
     socket: WebSocket;
     version: Version;

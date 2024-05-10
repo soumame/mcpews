@@ -1,18 +1,17 @@
-import { EventEmitter } from 'node:events';
+const { EventEmitter } = await import('node:events');
 import { WSServer } from './server.js';
 import { pEvent } from 'p-event';
 const ERRORCODE_MASK = 1 << 31;
 export class AppSession {
+    session;
     constructor(session) {
         this.session = session;
     }
     enableEncryption() {
         return new Promise((resolve) => {
-            if (
-                !this.session.enableEncryption(() => {
-                    resolve(true);
-                })
-            ) {
+            if (!this.session.enableEncryption(() => {
+                resolve(true);
+            })) {
                 resolve(false);
             }
         });
@@ -23,7 +22,8 @@ export class AppSession {
     on(eventName, listener) {
         if (eventName === 'Disconnect') {
             this.session.on('disconnect', listener);
-        } else {
+        }
+        else {
             this.session.subscribe(eventName, listener);
         }
         return this;
@@ -44,7 +44,8 @@ export class AppSession {
     off(eventName, listener) {
         if (eventName === 'Disconnect') {
             this.session.off('disconnect', listener);
-        } else {
+        }
+        else {
             this.session.unsubscribe(eventName, listener);
         }
         return this;
@@ -65,7 +66,8 @@ export class AppSession {
             requestId = this.session.sendCommand(commandLine, (event) => {
                 if (!event.body.statusCode || (event.body.statusCode & ERRORCODE_MASK) === 0) {
                     resolve(event);
-                } else {
+                }
+                else {
                     reject(new Error(event.body.statusMessage));
                 }
             });
@@ -87,7 +89,8 @@ export class AppSession {
             requestId = this.session.sendCommandLegacy(commandName, overload, input, (event) => {
                 if (!event.body.statusCode || (event.body.statusCode & ERRORCODE_MASK) === 0) {
                     resolve(event);
-                } else {
+                }
+                else {
                     reject(new Error(event.body.statusMessage));
                 }
             });
@@ -107,6 +110,8 @@ export class AppSession {
     }
 }
 export class WSApp extends EventEmitter {
+    server;
+    sessions;
     constructor(port, handleSession) {
         super();
         this.server = new WSServer(port, ({ session, request }) => {

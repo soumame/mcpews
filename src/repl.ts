@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 
-import { EventEmitter } from 'node:events';
+const { EventEmitter } = await import('node:events');
 import os from 'os';
 import readline from 'readline';
 import { REPLServer, start as startREPL } from 'repl';

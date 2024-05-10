@@ -5,6 +5,10 @@ import { MinecraftCommandVersion, Version } from './version.js';
 import { Session } from './base.js';
 import { EncryptionMode } from './protocol.js';
 export class ClientError extends Error {
+    frame;
+    requestId;
+    statusCode;
+    statusMessage;
     constructor(frame) {
         const { statusMessage, statusCode } = frame.body;
         super(statusMessage);
@@ -15,6 +19,10 @@ export class ClientError extends Error {
     }
 }
 export class ServerSession extends Session {
+    server;
+    exchangingKey;
+    eventListeners;
+    chatResponsers;
     constructor(server, socket) {
         super(socket, server.version);
         this.server = server;
@@ -278,6 +286,8 @@ export class ServerSession extends Session {
 }
 const kSecWebsocketKey = Symbol('sec-websocket-key');
 export class WSServer extends WebSocketServer {
+    sessions;
+    version;
     constructor(port, handleClient) {
         super({
             port,

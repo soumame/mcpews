@@ -4,6 +4,7 @@ import { Session } from './base.js';
 import { ClientEncryption } from './encrypt.js';
 import { EncryptionMode } from './protocol.js';
 export class WSClient extends Session {
+    eventListenMap;
     constructor(address, version) {
         super(new WebSocket(address), version);
         this.eventListenMap = new Map();

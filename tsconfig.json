@@ -1,9 +1,9 @@
 {
     "compilerOptions": {
         "moduleResolution": "Node10",
-        "module": "ES2020",
-        "target": "ES2020",
-        "lib": ["ES2020"],
+        "module": "ESNext",
+        "target": "ESNext",
+        "lib": ["ESNext"],
         "skipLibCheck": true,
         "allowJs": true,
         "declaration": true,

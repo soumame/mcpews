@@ -1,6 +1,6 @@
 /// <reference types="node" />
 /// <reference types="node" />
-import { EventEmitter } from 'node:events';
+declare const EventEmitter: typeof import("events");
 import { CommandResponseFrame, EventFrame, ServerSession, WSServer } from './server.js';
 import { CancelablePromise } from 'p-event';
 import { IncomingMessage } from 'http';
@@ -19,18 +19,9 @@ export declare class AppSession {
     addListener(eventName: string, listener: (frame: EventFrame) => void): this;
     removeListener(eventName: 'Disconnect', listener: () => void): this;
     removeListener(eventName: string, listener: (this: this, frame: EventFrame) => void): this;
-    waitForEvent(
-        eventName: string,
-        timeout?: number,
-        filter?: (frame: EventFrame) => boolean
-    ): CancelablePromise<EventFrame<import('./protocol.js').EventBody>>;
+    waitForEvent(eventName: string, timeout?: number, filter?: (frame: EventFrame) => boolean): CancelablePromise<EventFrame<import("./protocol.js").EventBody>>;
     command(commandLine: string | string[], timeout?: number): CancelablePromise<CommandResponseFrame>;
-    commandLegacy(
-        commandName: string,
-        overload: string,
-        input: Record<string, unknown>,
-        timeout?: number
-    ): CancelablePromise<CommandResponseFrame>;
+    commandLegacy(commandName: string, overload: string, input: Record<string, unknown>, timeout?: number): CancelablePromise<CommandResponseFrame>;
     disconnect(force?: boolean, timeout?: number): CancelablePromise<void>;
 }
 export declare class WSApp extends EventEmitter {
@@ -58,3 +49,4 @@ export interface WSApp {
     removeListener(eventName: 'session', listener: (connection: AppSessionConnection) => void): this;
     emit(eventName: 'session', connection: AppSessionConnection): boolean;
 }
+export {};

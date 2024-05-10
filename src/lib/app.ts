@@ -1,4 +1,4 @@
-import { EventEmitter } from 'node:events';
+const { EventEmitter } = await import('node:events');
 import { CommandResponseFrame, EventFrame, ServerSession, WSServer } from './server.js';
 import { pEvent, CancelablePromise } from 'p-event';
 import { IncomingMessage } from 'http';
