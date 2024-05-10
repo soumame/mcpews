@@ -1,6 +1,6 @@
 /// <reference types="node" />
 /// <reference types="node" />
-declare const EventEmitter: typeof import("events");
+import { EventEmitter } from 'node:stream';
 import { CommandResponseFrame, EventFrame, ServerSession, WSServer } from './server.js';
 import { CancelablePromise } from 'p-event';
 import { IncomingMessage } from 'http';
@@ -49,4 +49,3 @@ export interface WSApp {
     removeListener(eventName: 'session', listener: (connection: AppSessionConnection) => void): this;
     emit(eventName: 'session', connection: AppSessionConnection): boolean;
 }
-export {};

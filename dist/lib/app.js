@@ -1,4 +1,4 @@
-const { EventEmitter } = await import('node:events');
+import { EventEmitter } from 'node:stream';
 import { WSServer } from './server.js';
 import { pEvent } from 'p-event';
 const ERRORCODE_MASK = 1 << 31;

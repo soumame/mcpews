@@ -1,4 +1,5 @@
-const { EventEmitter } = await import('node:events');
+import { EventEmitter } from 'node:stream';
+
 import type { WebSocket } from 'ws';
 import { Version } from './version.js';
 import { Encryption } from './encrypt.js';
