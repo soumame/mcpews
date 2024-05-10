@@ -1,5 +1,5 @@
 #!/usr/bin/env node
-import { EventEmitter } from 'node:stream';
+import EventEmitter from 'eventemitter3';
 import os from 'os';
 import readline from 'readline';
 import { start as startREPL } from 'repl';

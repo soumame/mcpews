@@ -1,4 +1,5 @@
-import { EventEmitter } from 'node:stream';
+import EventEmitter from 'eventemitter3';
+
 import { CommandResponseFrame, EventFrame, ServerSession, WSServer } from './server.js';
 import { pEvent, CancelablePromise } from 'p-event';
 import { IncomingMessage } from 'http';
@@ -137,7 +138,14 @@ export class AppSession {
     }
 }
 
-export class WSApp extends EventEmitter {
+// イベントの型を定義する
+interface WSAppEvents {
+    connect: (message: string) => void;
+    disconnect: () => void;
+    error: (error: Error) => void;
+}
+
+export class WSApp extends EventEmitter<any> {
     server: WSServer;
     protected sessions: Set<AppSession>;
 

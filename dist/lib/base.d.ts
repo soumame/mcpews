@@ -1,5 +1,4 @@
-/// <reference types="node" />
-import { EventEmitter } from 'node:events';
+import EventEmitter from 'eventemitter3';
 import type { WebSocket } from 'ws';
 import { Version } from './version.js';
 import { Encryption } from './encrypt.js';

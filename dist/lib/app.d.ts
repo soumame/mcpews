@@ -1,6 +1,5 @@
 /// <reference types="node" />
-/// <reference types="node" />
-import { EventEmitter } from 'node:stream';
+import EventEmitter from 'eventemitter3';
 import { CommandResponseFrame, EventFrame, ServerSession, WSServer } from './server.js';
 import { CancelablePromise } from 'p-event';
 import { IncomingMessage } from 'http';
@@ -24,7 +23,7 @@ export declare class AppSession {
     commandLegacy(commandName: string, overload: string, input: Record<string, unknown>, timeout?: number): CancelablePromise<CommandResponseFrame>;
     disconnect(force?: boolean, timeout?: number): CancelablePromise<void>;
 }
-export declare class WSApp extends EventEmitter {
+export declare class WSApp extends EventEmitter<any> {
     server: WSServer;
     protected sessions: Set<AppSession>;
     constructor(port: number, handleSession?: (connection: AppSessionConnection) => void);

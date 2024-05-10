@@ -1,4 +1,4 @@
-import { EventEmitter } from 'node:stream';
+import EventEmitter from 'eventemitter3';
 import { WSServer } from './server.js';
 import { pEvent } from 'p-event';
 const ERRORCODE_MASK = 1 << 31;
