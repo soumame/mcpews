@@ -1,4 +1,4 @@
-import crypto from 'crypto';
+import crypto from 'node:crypto';
 import { EncryptionMode } from './protocol.js';
 
 const ecdhCurve = 'secp384r1';

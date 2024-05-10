@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 
-import EventEmitter from 'events';
+import EventEmitter from 'node:events';
 import os from 'os';
 import readline from 'readline';
 import { REPLServer, start as startREPL } from 'repl';

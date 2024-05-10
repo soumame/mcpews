@@ -1,5 +1,5 @@
 import { WebSocket, WebSocketServer } from 'ws';
-import { randomUUID } from 'crypto';
+import { randomUUID } from 'node:crypto';
 import { implementName, ServerEncryption } from './encrypt.js';
 import { MinecraftCommandVersion, Version } from './version.js';
 import { Frame, Session, SessionEventMap } from './base.js';

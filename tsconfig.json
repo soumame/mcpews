@@ -1,28 +1,24 @@
 {
-  "compilerOptions": {
-    "moduleResolution": "Node10",
-    "module": "ES2020",
-    "target": "ES2020",
-    "lib": [ "ES2020" ],
-    "skipLibCheck": true,
-    "allowJs": true,
-    "declaration": true,
-    "sourceMap": true,
-    "strict": true,
-    "noImplicitAny": true,
-    "strictNullChecks": true,
-    "strictFunctionTypes": true,
-    "strictBindCallApply": true,
-    "strictPropertyInitialization": true,
-    "esModuleInterop": true,
-    "rootDir": "./src",
-    "outDir": "./dist",
-    "declarationDir": "./dist",
-  },
-  "include": [
-    "src/**/*"
-  ],
-  "exclude": [
-    "src/test.ts"
-  ]
+    "compilerOptions": {
+        "moduleResolution": "Node10",
+        "module": "ES2020",
+        "target": "ES2020",
+        "lib": ["ES2020"],
+        "skipLibCheck": true,
+        "allowJs": true,
+        "declaration": true,
+        "sourceMap": true,
+        "strict": true,
+        "noImplicitAny": true,
+        "strictNullChecks": true,
+        "strictFunctionTypes": true,
+        "strictBindCallApply": true,
+        "strictPropertyInitialization": true,
+        "esModuleInterop": true,
+        "rootDir": "./src",
+        "outDir": "./dist",
+        "declarationDir": "./dist"
+    },
+    "include": ["src/**/*", "server.ts"],
+    "exclude": ["src/test.ts"]
 }
