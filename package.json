@@ -17,7 +17,8 @@
         "build": "tsc",
         "lint": "eslint --fix src",
         "test": "node --no-warnings --experimental-vm-modules node_modules/jest/bin/jest.js",
-        "watch": "tsc --watch --preserveWatchOutput"
+        "watch": "tsc --watch --preserveWatchOutput",
+        "postinstall": "npm run build"
     },
     "repository": {
         "type": "git",
