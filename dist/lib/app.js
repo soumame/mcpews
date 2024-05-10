@@ -1,4 +1,4 @@
-import EventEmitter from 'node:events';
+import { EventEmitter } from 'node:events';
 import { WSServer } from './server.js';
 import { pEvent } from 'p-event';
 const ERRORCODE_MASK = 1 << 31;
@@ -8,9 +8,11 @@ export class AppSession {
     }
     enableEncryption() {
         return new Promise((resolve) => {
-            if (!this.session.enableEncryption(() => {
-                resolve(true);
-            })) {
+            if (
+                !this.session.enableEncryption(() => {
+                    resolve(true);
+                })
+            ) {
                 resolve(false);
             }
         });
@@ -21,8 +23,7 @@ export class AppSession {
     on(eventName, listener) {
         if (eventName === 'Disconnect') {
             this.session.on('disconnect', listener);
-        }
-        else {
+        } else {
             this.session.subscribe(eventName, listener);
         }
         return this;
@@ -43,8 +44,7 @@ export class AppSession {
     off(eventName, listener) {
         if (eventName === 'Disconnect') {
             this.session.off('disconnect', listener);
-        }
-        else {
+        } else {
             this.session.unsubscribe(eventName, listener);
         }
         return this;
@@ -65,8 +65,7 @@ export class AppSession {
             requestId = this.session.sendCommand(commandLine, (event) => {
                 if (!event.body.statusCode || (event.body.statusCode & ERRORCODE_MASK) === 0) {
                     resolve(event);
-                }
-                else {
+                } else {
                     reject(new Error(event.body.statusMessage));
                 }
             });
@@ -88,8 +87,7 @@ export class AppSession {
             requestId = this.session.sendCommandLegacy(commandName, overload, input, (event) => {
                 if (!event.body.statusCode || (event.body.statusCode & ERRORCODE_MASK) === 0) {
                     resolve(event);
-                }
-                else {
+                } else {
                     reject(new Error(event.body.statusMessage));
                 }
             });

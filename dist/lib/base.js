@@ -1,4 +1,4 @@
-import EventEmitter from 'node:events';
+import { EventEmitter } from 'node:events';
 import { Version } from './version.js';
 export class Session extends EventEmitter {
     constructor(socket, version) {
@@ -33,8 +33,7 @@ export class Session extends EventEmitter {
                     requestId,
                     version
                 };
-            }
-            catch (err) {
+            } catch (err) {
                 this.emit('error', err);
                 return;
             }
@@ -44,8 +43,7 @@ export class Session extends EventEmitter {
                 let ret;
                 try {
                     ret = responser.call(this, frame);
-                }
-                catch (err) {
+                } catch (err) {
                     this.emit('error', err);
                 }
                 if (typeof ret === 'boolean') {
@@ -60,8 +58,7 @@ export class Session extends EventEmitter {
                 let ret;
                 try {
                     ret = handler.call(this, frame);
-                }
-                catch (err) {
+                } catch (err) {
                     this.emit('error', err);
                 }
                 if (typeof ret === 'boolean') {
