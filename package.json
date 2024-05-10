@@ -17,8 +17,7 @@
         "build": "tsc",
         "lint": "eslint --fix src",
         "test": "node --no-warnings --experimental-vm-modules node_modules/jest/bin/jest.js",
-        "watch": "tsc --watch --preserveWatchOutput",
-        "postinstall": "npm run build"
+        "watch": "tsc --watch --preserveWatchOutput"
     },
     "repository": {
         "type": "git",
@@ -37,8 +36,7 @@
     "homepage": "https://github.com/XeroAlpha/mcpews",
     "dependencies": {
         "p-event": "^6.0.0",
-        "ws": "^8.14.2",
-        "tsc": "2.0.4"
+        "ws": "^8.14.2"
     },
     "devDependencies": {
         "@types/jest": "^29.5.6",
