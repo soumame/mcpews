@@ -1,4 +1,4 @@
-import { EventEmitter } from 'node:stream';
+import { EventEmitter } from 'events';
 
 import type { WebSocket } from 'ws';
 import { Version } from './version.js';
