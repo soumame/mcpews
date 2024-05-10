@@ -1,5 +1,5 @@
 {
-    "name": "mcpews-cloudflare-workers",
+    "name": "mcpews-cf",
     "version": "4.0.0",
     "description": "A library that supports MCPE Websocket Protocol. customized by So Tokumaru for Cloudflare Workers",
     "type": "module",
