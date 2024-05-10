@@ -1,4 +1,4 @@
-import { EventEmitter } from 'events';
+import { EventEmitter } from 'node:events';
 import { Version } from './version.js';
 export class Session extends EventEmitter {
     socket;

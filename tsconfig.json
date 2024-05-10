@@ -1,6 +1,6 @@
 {
     "compilerOptions": {
-        "moduleResolution": "Node10",
+        "moduleResolution": "Bundler",
         "module": "ESNext",
         "target": "ESNext",
         "lib": ["ESNext"],
