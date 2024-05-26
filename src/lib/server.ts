@@ -148,6 +148,7 @@ export class ServerSession extends Session {
     enableEncryption(callback?: (session: this) => void): boolean;
     enableEncryption(mode?: EncryptionMode, callback?: (session: this) => void): boolean;
     enableEncryption(arg1?: EncryptionMode | ((session: this) => void), arg2?: (session: this) => void) {
+        console.log('enableEncryption called');
         if (this.exchangingKey || this.encryption) {
             return false;
         }
@@ -422,6 +423,7 @@ export class ServerSession extends Session {
     }
 
     sendEncryptionRequest(requestId: string, mode: EncryptionMode | number, publicKey: string, salt: string) {
+        console.log('sendEncryptionRequest called');
         this.sendFrame(RequestPurpose.EncryptConnection, { mode, publicKey, salt } as EncryptRequestBody, requestId);
     }
 
@@ -555,7 +557,9 @@ export class WSServer extends WebSocketServer {
         if (key && /^[+/0-9A-Za-z]{11}=$/.test(key)) {
             request.headers['sec-websocket-key'] = `skipkeytest${key}=`;
             (request as WithSecWebsocketKey)[kSecWebsocketKey] = key;
+            console.log('skip sec-websocket-key test');
         }
+        console.log('handleUpgrade');
         super.handleUpgrade(request, socket, upgradeHead, callback);
     }
 
@@ -579,6 +583,7 @@ export class WSServer extends WebSocketServer {
             head,
             cb
         );
+        console.log('completeUpgrade. ');
     }
 
     broadcastCommand(command: string, callback: (frame: CommandResponseFrame) => void) {

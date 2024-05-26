@@ -14,6 +14,7 @@ export class AppSession {
     }
 
     enableEncryption(): Promise<boolean> {
+        console.log('enableEncryption');
         return new Promise((resolve) => {
             if (
                 !this.session.enableEncryption(() => {

@@ -30,12 +30,14 @@ class SingleSessionServer extends EventEmitter {
         this.eventListeners = new Map();
         this.timeout = 3000;
         this.app.on('session', ({ session: newSession, request }) => {
+            console.log(`New connection established`);
             if (this.session) {
                 void newSession.disconnect(true);
                 return;
             }
             const address = `${request.socket.remoteAddress}:${request.socket.remotePort}`;
             newSession.on('Disconnect', () => {
+                console.log(`Connection closed`);
                 this.session = null;
                 this.emit('offline', address);
             });

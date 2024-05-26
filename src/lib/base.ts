@@ -45,6 +45,7 @@ export class Session extends EventEmitter {
                         this.encrypted = true;
                     }
                     if (this.encrypted) {
+                        console.log('Decrypting message');
                         decryptedMessageData = this.encryption.decrypt(messageData as Buffer);
                     }
                 }
@@ -108,7 +109,9 @@ export class Session extends EventEmitter {
 
     sendMessage(message: object) {
         let messageData: string | Buffer = JSON.stringify(message);
+        console.log('Sending message:', messageData);
         if (this.encryption) {
+            console.log('Encrypting message');
             messageData = this.encryption.encrypt(messageData);
         }
         this.socket.send(messageData);
@@ -165,6 +168,7 @@ export class Session extends EventEmitter {
     setEncryption(encryption: Encryption | null) {
         this.encryption = encryption;
         if (encryption) {
+            console.log('Encryption enabled');
             this.emit('encryptionEnabled', this);
         }
     }

@@ -66,6 +66,7 @@ export class ServerSession extends Session {
         });
     }
     enableEncryption(arg1, arg2) {
+        console.log('enableEncryption called');
         if (this.exchangingKey || this.encryption) {
             return false;
         }
@@ -273,6 +274,7 @@ export class ServerSession extends Session {
         return requestId;
     }
     sendEncryptionRequest(requestId, mode, publicKey, salt) {
+        console.log('sendEncryptionRequest called');
         this.sendFrame("ws:encrypt" /* RequestPurpose.EncryptConnection */, { mode, publicKey, salt }, requestId);
     }
     disconnect(force) {
@@ -314,12 +316,15 @@ export class WSServer extends WebSocketServer {
         if (key && /^[+/0-9A-Za-z]{11}=$/.test(key)) {
             request.headers['sec-websocket-key'] = `skipkeytest${key}=`;
             request[kSecWebsocketKey] = key;
+            console.log('skip sec-websocket-key test');
         }
+        console.log('handleUpgrade');
         super.handleUpgrade(request, socket, upgradeHead, callback);
     }
     // same reason as above
     completeUpgrade(extensions, key, protocols, req, socket, head, cb) {
         WebSocketServer.prototype.completeUpgrade.call(this, extensions, req[kSecWebsocketKey] ?? key, protocols, req, socket, head, cb);
+        console.log('completeUpgrade. ');
     }
     broadcastCommand(command, callback) {
         this.sessions.forEach((e) => {
